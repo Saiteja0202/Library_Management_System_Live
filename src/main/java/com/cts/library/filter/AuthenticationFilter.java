@@ -32,6 +32,12 @@ public class AuthenticationFilter extends OncePerRequestFilter{
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
     	
+    	if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            filterChain.doFilter(request, response);  // Continue filter chain to add CORS headers
+            return;
+        }
+    	
     	String path = request.getServletPath();
     	 if (path.startsWith("/login") ||
     			 path.startsWith("/member/register") ||
