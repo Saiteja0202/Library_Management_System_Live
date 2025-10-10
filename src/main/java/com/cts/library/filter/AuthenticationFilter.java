@@ -16,7 +16,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-//@Component
+// @Component
 public class AuthenticationFilter extends OncePerRequestFilter{
 	
 	private MemberTokenRepo memberTokenRepo;
@@ -32,13 +32,17 @@ public class AuthenticationFilter extends OncePerRequestFilter{
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
     	
-    	if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            response.setStatus(HttpServletResponse.SC_OK);
-            filterChain.doFilter(request, response);  // Continue filter chain to add CORS headers
-            return;
-        }
-    	
+
+                                        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+                                            response.setStatus(HttpServletResponse.SC_OK);
+                                            filterChain.doFilter(request, response);  // Continue filter chain to add CORS headers
+                                            return;
+                                        }
     	String path = request.getServletPath();
+
+        
+        
+
     	 if (path.startsWith("/login") ||
     			 path.startsWith("/member/register") ||
     			 path.startsWith("/books/get-books") ||
