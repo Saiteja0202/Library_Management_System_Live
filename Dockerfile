@@ -1,5 +1,5 @@
-# Stage 1: Build using Maven Wrapper
-FROM eclipse-temurin:17-jdk AS build
+# Stage 1: Build using Java 21
+FROM eclipse-temurin:21-jdk AS build
 
 WORKDIR /app
 
@@ -13,7 +13,7 @@ RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests
 
 # Stage 2: Run the app
-FROM eclipse-temurin:17-jdk
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
