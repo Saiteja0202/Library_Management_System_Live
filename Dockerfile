@@ -1,14 +1,28 @@
-# Use official Java image
-FROM eclipse-temurin:17-jdk
+# Stage 1: Build using Maven Wrapper
+FROM eclipse-temurin:17-jdk AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy the jar file
-COPY target/*.jar app.jar
+# Copy all files
+COPY . .
 
-# Expose port (Spring Boot runs here)
+# Give permission to mvnw
+RUN chmod +x mvnw
+
+# Build the project
+RUN ./mvnw clean package -DskipTests
+
+# Stage 2: Run the app
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /app
+
+# Copy jar from build stage
+COPY --from=build /app/target/*.jar app.jar
+
+# Expose port
 EXPOSE 8080
 
-# Run application
+# Run the app
 ENTRYPOINT ["java","-jar","/app/app.jar"]
+``
